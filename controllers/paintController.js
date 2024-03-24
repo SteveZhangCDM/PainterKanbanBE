@@ -48,6 +48,10 @@ const updatePaintInventory = async (req, res) => {
       paint.status = "out of stock";
     }
 
+    if (paint.status === "out of stock" && e.quantity > 0) {
+      paint.status = "available";
+    }
+
     await paint.save();
     res.status(200).json("Paint inventory updated successfully.");
   } catch (error) {
@@ -76,6 +80,10 @@ const updateMultiplePaintsInventory = async (req, res) => {
           if (paint.quantity <= 0) {
             paint.quantity = 0;
             paint.status = "out of stock";
+          }
+
+          if (paint.status === "out of stock" && e.quantity > 0) {
+            paint.status = "available";
           }
 
           await paint.save();
