@@ -41,7 +41,6 @@ const getUsers = async (req, res) => {
 // @route   /api/users/login
 // @access  Private
 const loginUser = async (req, res) => {
-  console.log("run");
   try {
     const { userName, password } = req.body;
     const user = await User.findOne({ userName }).select("+password");

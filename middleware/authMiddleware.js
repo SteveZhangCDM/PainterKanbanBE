@@ -30,7 +30,20 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
+const isManager = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (user.role !== "admin" || user.role !== "manager") {
+      return res.status(403).send("Access denied. Admins only.");
+    }
+    next();
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
 module.exports = {
   isAdmin,
   authenticate,
+  isManager,
 };
