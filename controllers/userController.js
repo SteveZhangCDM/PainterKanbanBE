@@ -49,6 +49,10 @@ const loginUser = async (req, res) => {
       return res.status(404).json("User not found");
     }
 
+    if (user.isActive === false) {
+      return res.status(403).json("Account has been deactivated");
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json("Invalid credentials");
